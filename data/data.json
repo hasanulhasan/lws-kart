@@ -7,7 +7,7 @@
     "discountPrice": 400,
     "rating": 5,
     "stock": 94,
-    "brand": "Apple",
+    "brand": "Swan",
     "category": "bedroom",
     "thumbnail": "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
     "images": [
@@ -26,7 +26,7 @@
     "discountPrice": 720,
     "rating": 4.44,
     "stock": 34,
-    "brand": "Apple",
+    "brand": "Swan",
     "category": "bedroom",
     "thumbnail": "https://cdn.dummyjson.com/product-images/2/thumbnail.jpg",
     "images": [
@@ -44,7 +44,7 @@
     "discountPrice": 950,
     "rating": 4.09,
     "stock": 36,
-    "brand": "Samsung",
+    "brand": "RFL",
     "category": "bedroom",
     "thumbnail": "https://cdn.dummyjson.com/product-images/3/thumbnail.jpg",
     "images": ["https://cdn.dummyjson.com/product-images/3/1.jpg"]
@@ -57,7 +57,7 @@
     "discountPrice": 120,
     "rating": 4.3,
     "stock": 123,
-    "brand": "OPPO",
+    "brand": "RFL",
     "category": "bedroom",
     "thumbnail": "https://cdn.dummyjson.com/product-images/4/thumbnail.jpg",
     "images": [
