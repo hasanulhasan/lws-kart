@@ -4,20 +4,21 @@ import Categories from "@/componets/Home/Categories";
 import Features from "@/componets/Home/Features";
 import NewArrival from "@/componets/Home/NewArrival";
 import TrendingProducts from "@/componets/Home/TrendingProducts";
-import { getAllProducts } from "@/database/queries";
+import { getAllProducts, getSingleProduct, getTrending } from "@/database/queries";
 
 export default async function Home() {
   const products = await getAllProducts();
-  console.log( "products",products);
+  const trendingProducts = await getTrending();
+  
 
   return (
     <>
       <Banner />
       <Features />
       <Categories />
-      <NewArrival />
+      <NewArrival products={products}/>
       <Ad />
-      <TrendingProducts />
+      <TrendingProducts trendingProducts={trendingProducts} />
     </>
   );
 }
