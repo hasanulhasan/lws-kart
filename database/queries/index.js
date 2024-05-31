@@ -1,4 +1,6 @@
 import { productModel } from "@/models/product-model";
+import { userModel } from "@/models/user-model";
+import { replaceMongoIdInObject } from "@/utils/data-util";
 
 export const getAllProducts = async () => {
   const products = await productModel.find().limit(4).lean();
@@ -16,6 +18,13 @@ export const getSingleProduct = async (id) => {
   const product = await productModel.findById(id).lean();
   return product;
 }
+
+
+export async function getUserByEmail(email) {
+  const user = await userModel.find({ email: email }).lean();
+  return replaceMongoIdInObject(user[0]);
+}
+
 
 export const getRelatedProduct = async (category) => {
   const product = await productModel.find({category: category}).lean();

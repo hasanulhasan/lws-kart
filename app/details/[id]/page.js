@@ -1,162 +1,204 @@
+"use server";
 /* eslint-disable @next/next/no-img-element */
-
+import { auth } from "@/auth";
 import SingleProduct from "@/componets/Home/SingleProduct";
-import { getRelatedProduct, getSingleProduct } from "@/database/queries";
+import ShareSocial from "@/componets/ShareSocial";
+import {
+  getRelatedProduct,
+  getSingleProduct,
+  getUserByEmail,
+} from "@/database/queries";
+import WishBtn from "@/utils/WishBtn";
 
-export default async function page({params:{id}}) {
+export default async function page({ params: { id } }) {
   const product = await getSingleProduct(id);
-  
   const relatedProducts = await getRelatedProduct(product?.category);
-  console.log(relatedProducts);
+
+  const session = await auth();
+  const loggedInUser = await getUserByEmail(session?.user?.email);
+
+  console.log("sessionUser", session);
+  console.log("loggedIn user", loggedInUser);
+
+  // const handleWishList = async (e) => {
+  //   "use server";
+  //   e.preventdefault();
+  //   try {
+  //     const res = await fetch("/api/wishlist", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         productId: id,
+  //         userId: loggedInUser?.id,
+  //       }),
+  //     });
+  //     // res.status === 201 && router.push("/bookings");
+  //     console.log(res)
+
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+  // console.log(relatedProducts);
 
   return (
     <>
       {/* breadcrumb */}
-      <div class="container py-4 flex items-center gap-3">
-        <a href="../index.html" class="text-primary text-base">
-          <i class="fa-solid fa-house"></i>
+      <div className="container py-4 flex items-center gap-3">
+        <a href="../index.html" className="text-primary text-base">
+          <i className="fa-solid fa-house"></i>
         </a>
-        <span class="text-sm text-gray-400">
-          <i class="fa-solid fa-chevron-right"></i>
+        <span className="text-sm text-gray-400">
+          <i className="fa-solid fa-chevron-right"></i>
         </span>
-        <p class="text-gray-600 font-medium">Product</p>
+        <p className="text-gray-600 font-medium">Product</p>
       </div>
       {/* details */}
-      <div class="container grid grid-cols-2 gap-6">
+      <div className="container grid grid-cols-2 gap-6">
         <div>
           <img
             src="../assets/images/products/product1.jpg"
             alt="product"
-            class="w-full"
+            className="w-full"
           />
-          <div class="grid grid-cols-5 gap-4 mt-4">
+          <div className="grid grid-cols-5 gap-4 mt-4">
             <img
               src="../assets/images/products/product2.jpg"
               alt="product2"
-              class="w-full cursor-pointer border border-primary"
+              className="w-full cursor-pointer border border-primary"
             />
             <img
               src="../assets/images/products/product3.jpg"
               alt="product2"
-              class="w-full cursor-pointer border"
+              className="w-full cursor-pointer border"
             />
             <img
               src="../assets/images/products/product4.jpg"
               alt="product2"
-              class="w-full cursor-pointer border"
+              className="w-full cursor-pointer border"
             />
             <img
               src="../assets/images/products/product5.jpg"
               alt="product2"
-              class="w-full cursor-pointer border"
+              className="w-full cursor-pointer border"
             />
             <img
               src="../assets/images/products/product6.jpg"
               alt="product2"
-              class="w-full cursor-pointer border"
+              className="w-full cursor-pointer border"
             />
           </div>
         </div>
 
         <div>
-          <h2 class="text-3xl font-medium uppercase mb-2">
+          <h2 className="text-3xl font-medium uppercase mb-2">
             {product.title}
           </h2>
-          <div class="flex items-center mb-4">
-            <div class="flex gap-1 text-sm text-yellow-400">
+          <div className="flex items-center mb-4">
+            <div className="flex gap-1 text-sm text-yellow-400">
               <span>
-                <i class="fa-solid fa-star"></i>
+                <i className="fa-solid fa-star"></i>
               </span>
               <span>
-                <i class="fa-solid fa-star"></i>
+                <i className="fa-solid fa-star"></i>
               </span>
               <span>
-                <i class="fa-solid fa-star"></i>
+                <i className="fa-solid fa-star"></i>
               </span>
               <span>
-                <i class="fa-solid fa-star"></i>
+                <i className="fa-solid fa-star"></i>
               </span>
               <span>
-                <i class="fa-solid fa-star"></i>
+                <i className="fa-solid fa-star"></i>
               </span>
             </div>
-            <div class="text-xs text-gray-500 ml-3">(150 Reviews)</div>
+            <div className="text-xs text-gray-500 ml-3">(150 Reviews)</div>
           </div>
-          <div class="space-y-2">
-            <p class="text-gray-800 font-semibold space-x-2">
+          <div className="space-y-2">
+            <p className="text-gray-800 font-semibold space-x-2">
               <span>Availability: </span>
-              {product.stock === 0 ? <> <span class="text-red-600">Out Of Stock</span> </>: <> <span class="text-green-600">In Stock</span> </>}
+              {product.stock === 0 ? (
+                <>
+                  {" "}
+                  <span className="text-red-600">Out Of Stock</span>{" "}
+                </>
+              ) : (
+                <>
+                  {" "}
+                  <span className="text-green-600">In Stock</span>{" "}
+                </>
+              )}
             </p>
-            <p class="space-x-2">
-              <span class="text-gray-800 font-semibold">Brand: </span>
-              <span class="text-gray-600">{product.brand}</span>
+            <p className="space-x-2">
+              <span className="text-gray-800 font-semibold">Brand: </span>
+              <span className="text-gray-600">{product.brand}</span>
             </p>
-            <p class="space-x-2">
-              <span class="text-gray-800 font-semibold">Category: </span>
-              <span class="text-gray-600">{product.category}</span>
+            <p className="space-x-2">
+              <span className="text-gray-800 font-semibold">Category: </span>
+              <span className="text-gray-600">{product.category}</span>
             </p>
-            <p class="space-x-2">
-              <span class="text-gray-800 font-semibold">SKU: </span>
-              <span class="text-gray-600">BE45VGRT</span>
+            <p className="space-x-2">
+              <span className="text-gray-800 font-semibold">SKU: </span>
+              <span className="text-gray-600">BE45VGRT</span>
             </p>
           </div>
-          <div class="flex items-baseline mb-1 space-x-2 font-roboto mt-4">
-            <p class="text-xl text-primary font-semibold">${product.discountPrice}</p>
-            <p class="text-base text-gray-400 line-through">${product.price}</p>
+          <div className="flex items-baseline mb-1 space-x-2 font-roboto mt-4">
+            <p className="text-xl text-primary font-semibold">
+              ${product.discountPrice}
+            </p>
+            <p className="text-base text-gray-400 line-through">
+              ${product.price}
+            </p>
           </div>
 
-          <p class="mt-4 text-gray-600">
-          {product.description}
-          </p>
+          <p className="mt-4 text-gray-600">{product.description}</p>
 
-          <div class="mt-4">
-            <h3 class="text-sm text-gray-800 uppercase mb-1">Quantity</h3>
-            <div class="flex border border-gray-300 text-gray-600 divide-x divide-gray-300 w-max">
-              <div class="h-8 w-8 text-xl flex items-center justify-center cursor-pointer select-none">
+          <div className="mt-4">
+            <h3 className="text-sm text-gray-800 uppercase mb-1">Quantity</h3>
+            <div className="flex border border-gray-300 text-gray-600 divide-x divide-gray-300 w-max">
+              <div className="h-8 w-8 text-xl flex items-center justify-center cursor-pointer select-none">
                 -
               </div>
-              <div class="h-8 w-8 text-base flex items-center justify-center">
+              <div className="h-8 w-8 text-base flex items-center justify-center">
                 4
               </div>
-              <div class="h-8 w-8 text-xl flex items-center justify-center cursor-pointer select-none">
+              <div className="h-8 w-8 text-xl flex items-center justify-center cursor-pointer select-none">
                 +
               </div>
             </div>
           </div>
-
-          <div class="mt-6 flex gap-3 border-b border-gray-200 pb-5 pt-5">
+          <div className="mt-4"><ShareSocial /></div>
+          <div className="mt-2 flex items-center gap-3 border-b border-gray-200 pb-5 pt-5">
             <a
               href="#"
-              class="bg-primary border border-primary text-white px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:bg-transparent hover:text-primary transition"
+              className="bg-primary border border-primary text-white px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:bg-transparent hover:text-primary transition"
             >
-              <i class="fa-solid fa-bag-shopping"></i> Add to cart
+              <i className="fa-solid fa-bag-shopping"></i> Add to cart
             </a>
-            <a
-              href="#"
-              class="border border-gray-300 text-gray-600 px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:text-primary transition"
-            >
-              <i class="fa-solid fa-heart"></i> Wishlist
-            </a>
+            <WishBtn />
+            
           </div>
 
-          <div class="flex gap-3 mt-4">
+          <div className="flex gap-3 mt-4">
             <a
               href="#"
-              class="text-gray-400 hover:text-gray-500 h-8 w-8 rounded-full border border-gray-300 flex items-center justify-center"
+              className="text-gray-400 hover:text-gray-500 h-8 w-8 rounded-full border border-gray-300 flex items-center justify-center"
             >
-              <i class="fa-brands fa-facebook-f"></i>
+              <i className="fa-brands fa-facebook-f"></i>
             </a>
             <a
               href="#"
-              class="text-gray-400 hover:text-gray-500 h-8 w-8 rounded-full border border-gray-300 flex items-center justify-center"
+              className="text-gray-400 hover:text-gray-500 h-8 w-8 rounded-full border border-gray-300 flex items-center justify-center"
             >
-              <i class="fa-brands fa-twitter"></i>
+              <i className="fa-brands fa-twitter"></i>
             </a>
             <a
               href="#"
-              class="text-gray-400 hover:text-gray-500 h-8 w-8 rounded-full border border-gray-300 flex items-center justify-center"
+              className="text-gray-400 hover:text-gray-500 h-8 w-8 rounded-full border border-gray-300 flex items-center justify-center"
             >
-              <i class="fa-brands fa-instagram"></i>
+              <i className="fa-brands fa-instagram"></i>
             </a>
           </div>
         </div>
@@ -165,33 +207,27 @@ export default async function page({params:{id}}) {
       {/* description */}
 
       {/* related */}
-      <div class="container pb-16">
-        <h3 class="border-b border-gray-200 font-roboto text-gray-800 pb-3 font-medium">
+      <div className="container pb-16">
+        <h3 className="border-b border-gray-200 font-roboto text-gray-800 pb-3 font-medium">
           Product details
         </h3>
-        <div class="w-3/5 pt-6">
-          <div class="text-gray-600">
-            <p>
-            {product.description}
-            </p>
-            <p>
-            {product.description}
-            </p>
-            <p>
-            {product.description}
-            </p>
+        <div className="w-3/5 pt-6">
+          <div className="text-gray-600">
+            <p>{product.description}</p>
+            <p>{product.description}</p>
+            <p>{product.description}</p>
           </div>
         </div>
       </div>
 
-      <div class="container pb-16">
-        <h2 class="text-2xl font-medium text-gray-800 uppercase mb-6">
+      <div className="container pb-16">
+        <h2 className="text-2xl font-medium text-gray-800 uppercase mb-6">
           Related products
         </h2>
-        <div class="grid grid-cols-4 gap-6">
-          {
-            relatedProducts?.map(product => <SingleProduct key={product._id} product={product} />)
-          }
+        <div className="grid grid-cols-4 gap-6">
+          {relatedProducts?.map((product) => (
+            <SingleProduct key={product._id} product={product} />
+          ))}
         </div>
       </div>
     </>
