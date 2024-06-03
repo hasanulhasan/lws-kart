@@ -1,6 +1,14 @@
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 import React from "react";
 
-export default function page() {
+export default async function CartPage() {
+  const session = await auth();
+
+  if (!session?.user) {
+    redirect("/login");
+  }
+
   return (
     <>
       {/* <!-- breadcrumb --> */}

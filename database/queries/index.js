@@ -1,15 +1,36 @@
 import { productModel } from "@/models/product-model";
 import { userModel } from "@/models/user-model";
-import { replaceMongoIdInObject } from "@/utils/data-util";
+import { wishListModel } from "@/models/wishlist-model";
+import {
+  replaceMongoIdInArray,
+  replaceMongoIdInObject,
+} from "@/utils/data-util";
 
 export const getSerchedProduct = async (searchTerm) => {
   const products = await productModel.find().lean();
 
   let filteredProducts = products;
-  filteredProducts = filteredProducts.filter((product) =>
-    product.title.toLowerCase().includes(searchTerm.toLowerCase())
+  filteredProducts = filteredProducts?.filter((product) =>
+    product?.title?.toLowerCase().includes(searchTerm?.toLowerCase())
   );
   return filteredProducts;
+};
+
+export const getWishListProduct = async (userId) => {
+  const products = await wishListModel.find({ userId }).lean();
+
+  let userWishedProduct = [];
+
+  userWishedProduct = await Promise.all(
+    products?.map(async (poroduct) => {
+      const userWishProduct = await productModel
+        .findById(poroduct?.productId)
+        .lean();
+      return userWishProduct;
+    })
+  );
+
+  return userWishedProduct;
 };
 
 export const getAllProducts = async () => {
@@ -28,7 +49,7 @@ export const getTrending = async () => {
 
 export const getSingleProduct = async (id) => {
   const product = await productModel.findById(id).lean();
-  return product;
+  return replaceMongoIdInObject(product);
 };
 
 export async function getUserByEmail(email) {

@@ -1,5 +1,6 @@
 "use server";
 /* eslint-disable @next/next/no-img-element */
+import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import SingleProduct from "@/componets/Home/SingleProduct";
 import ShareSocial from "@/componets/ShareSocial";
@@ -9,39 +10,48 @@ import {
   getUserByEmail,
 } from "@/database/queries";
 import WishBtn from "@/utils/WishBtn";
+import { redirect } from "next/navigation";
 
 export default async function page({ params: { id } }) {
   const product = await getSingleProduct(id);
   const relatedProducts = await getRelatedProduct(product?.category);
 
-  // const session = await auth();
-  // const loggedInUser = await getUserByEmail(session?.user?.email);
+  const session = await auth();
+  const loggedInUser = await getUserByEmail(session?.user?.email);
+  
+  const handleWishList = async () => {
+    "use server"
 
-  // console.log("sessionUser", session);
-  // console.log("loggedIn user", loggedInUser);
+    if (!session?.user) {
+      redirect("/login")
+    }
 
-  // const handleWishList = async (e) => {
-  //   "use server";
-  //   e.preventdefault();
-  //   try {
-  //     const res = await fetch("/api/wishlist", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         productId: id,
-  //         userId: loggedInUser?.id,
-  //       }),
-  //     });
-  //     // res.status === 201 && router.push("/bookings");
-  //     console.log(res)
+    if (!loggedInUser?.id) {
+      console.log("user not found");
+    }
 
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-  // console.log(relatedProducts);
+    try {
+      const res = await fetch(`${process.env.APP_URL}/api/wishlist`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          productId: product?.id,
+          userId: loggedInUser?.id,
+        }),
+      });
+      
+      if(res.status === 201){
+        // redirect("/wishlist");
+        revalidatePath("/", "layout");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+ 
+  
 
   return (
     <>
@@ -119,7 +129,7 @@ export default async function page({ params: { id } }) {
           <div className="space-y-2">
             <p className="text-gray-800 font-semibold space-x-2">
               <span>Availability: </span>
-              {product.stock === 0 ? (
+              {product?.stock === 0 ? (
                 <>
                   {" "}
                   <span className="text-red-600">Out Of Stock</span>{" "}
@@ -133,11 +143,11 @@ export default async function page({ params: { id } }) {
             </p>
             <p className="space-x-2">
               <span className="text-gray-800 font-semibold">Brand: </span>
-              <span className="text-gray-600">{product.brand}</span>
+              <span className="text-gray-600">{product?.brand}</span>
             </p>
             <p className="space-x-2">
               <span className="text-gray-800 font-semibold">Category: </span>
-              <span className="text-gray-600">{product.category}</span>
+              <span className="text-gray-600">{product?.category}</span>
             </p>
             <p className="space-x-2">
               <span className="text-gray-800 font-semibold">SKU: </span>
@@ -146,14 +156,14 @@ export default async function page({ params: { id } }) {
           </div>
           <div className="flex items-baseline mb-1 space-x-2 font-roboto mt-4">
             <p className="text-xl text-primary font-semibold">
-              ${product.discountPrice}
+              ${product?.discountPrice}
             </p>
             <p className="text-base text-gray-400 line-through">
-              ${product.price}
+              ${product?.price}
             </p>
           </div>
 
-          <p className="mt-4 text-gray-600">{product.description}</p>
+          <p className="mt-4 text-gray-600">{product?.description}</p>
 
           <div className="mt-4">
             <h3 className="text-sm text-gray-800 uppercase mb-1">Quantity</h3>
@@ -169,7 +179,10 @@ export default async function page({ params: { id } }) {
               </div>
             </div>
           </div>
-          <div className="mt-4"><ShareSocial /></div>
+
+          <div className="mt-4">
+            <ShareSocial />
+          </div>
           <div className="mt-2 flex items-center gap-3 border-b border-gray-200 pb-5 pt-5">
             <a
               href="#"
@@ -177,8 +190,7 @@ export default async function page({ params: { id } }) {
             >
               <i className="fa-solid fa-bag-shopping"></i> Add to cart
             </a>
-            <WishBtn />
-            
+            <WishBtn handleWishList={handleWishList} />
           </div>
 
           <div className="flex gap-3 mt-4">
@@ -225,8 +237,8 @@ export default async function page({ params: { id } }) {
           Related products
         </h2>
         <div className="grid grid-cols-4 gap-6">
-          {relatedProducts?.map((product) => (
-            <SingleProduct key={product._id} product={product} />
+          {relatedProducts?.map((product, i) => (
+            <SingleProduct key={i} product={product} />
           ))}
         </div>
       </div>

@@ -5,8 +5,7 @@ import FilterSideBar from "@/componets/Shop/FilterSideBar";
 import { getSerchedProduct } from "@/database/queries";
 
 export default async function ShopPage({ searchParams: { search } }) {
-  const searchedProducts = await getSerchedProduct(search);
-
+  const searchedProducts = await getSerchedProduct(search)
   return (
     <>
       <BreadCrumb />
@@ -273,12 +272,22 @@ export default async function ShopPage({ searchParams: { search } }) {
         </div>
 
         <FilterSideBar />
-        
+
         <div className="col-span-3">
           <div className="grid md:grid-cols-3 grid-cols-2 gap-6">
-            {searchedProducts?.map((product,i) => (
-              <SingleProduct key={i} product={product}/>
-            ))}
+            {searchedProducts?.length !== 0 ? (
+              <>
+                {searchedProducts?.map((product, i) => (
+                  <SingleProduct key={i} product={product} />
+                ))}
+              </>
+            ) : (
+              <>
+                <p className="text-center text-xl">
+                  No product found,  please search again.
+                </p>
+              </>
+            )}
           </div>
         </div>
       </div>

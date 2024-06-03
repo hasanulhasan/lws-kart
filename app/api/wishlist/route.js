@@ -1,32 +1,26 @@
-// import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
+import { dbConnect } from "@/service/mongo";
+import { wishListModel } from "@/models/wishlist-model";
 
-// import mongoose from "mongoose";
+export const somethingFromWithList = 10;
 
-// export const POST = async (request) => {
-//   const { productId, userId } = await request.json();
-//   const something = await request.json();
+export const POST = async (request) => {
+  await dbConnect();
+  const { productId, userId } = await request.json();
 
-//   console.log(something);
+  const payload = {
+    productId: productId,
+    userId: userId,
+  };
 
-//   // await dbConnect();
-
-//   // const payload = {
-//   //   hotelId: new mongoose.Types.ObjectId(hotelId),
-//   //   userId: new mongoose.Types.ObjectId(userId),
-//   //   checkin,
-//   //   checkout
-//   // };
-
-//   // console.log(payload);
-
-//   try {
-//     // await bookingModel.create(payload);
-//     return new NextResponse("A New Booking has been made", {
-//       status: 201,
-//     });
-//   } catch (err) {
-//     return new NextResponse(err.message, {
-//       status: 500,
-//     });
-//   }
-// };
+  try {
+    await wishListModel.create(payload);
+    return new NextResponse("Added to wishList", {
+      status: 201,
+    });
+  } catch (err) {
+    return new NextResponse(err.message, {
+      status: 500,
+    });
+  }
+};

@@ -9,13 +9,13 @@ export default function Search() {
   const [searchTerm, setSearchTerm] = useState("");
   
   const doSearch = () => {
-    const params = new URLSearchParams(searchParams);
+    const params = new URLSearchParams(searchParams);    
     params.set('search', searchTerm);
 
     if(pathName.includes("shop")){
         replace(`${pathName}?${params.toString()}`);
     }else{
-        replace(`${pathName}shop?${params.toString()}`);
+        replace(`/shop?${params.toString()}`);
     }
 
   }
