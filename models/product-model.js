@@ -39,4 +39,4 @@ const productSchema = new Schema({
   }
 })
 
-export const productModel = mongoose.models.products ?? mongoose.model("products", productSchema)
+export const productModel = mongoose?.models?.products ?? mongoose?.model("products", productSchema)

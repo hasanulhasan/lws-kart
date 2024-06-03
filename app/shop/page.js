@@ -1,21 +1,15 @@
-/* eslint-disable @next/next/no-async-client-component */
-'use client'
 /* eslint-disable @next/next/no-img-element */
+import SingleProduct from "@/componets/Home/SingleProduct";
 import BreadCrumb from "@/componets/Shop/BreadCrumb";
 import FilterSideBar from "@/componets/Shop/FilterSideBar";
 import { getSerchedProduct } from "@/database/queries";
-import { useSearchParams } from "next/navigation";
 
-export default async function ShopPage() {
-  const searchParams = useSearchParams();
-  const search = searchParams.get("search");
-  const allProducts = await getSerchedProduct(search);
-
-  console.log(allProducts);
+export default async function ShopPage({ searchParams: { search } }) {
+  const searchedProducts = await getSerchedProduct(search);
 
   return (
     <>
-      <BreadCrumb/>
+      <BreadCrumb />
       {/* <!-- shop wrapper --> */}
       <div className="container grid md:grid-cols-4 grid-cols-2 gap-6 pt-4 pb-16 items-start">
         {/* <!-- sidebar --> */}
@@ -36,7 +30,7 @@ export default async function ShopPage() {
         <div
           id="drawer-example"
           className="fixed top-0 left-0 z-40 h-screen p-4 overflow-y-auto transition-transform -translate-x-full bg-white w-80 dark:bg-gray-800"
-          tabindex="-1"
+          tabIndex="-1"
           aria-labelledby="drawer-label"
         >
           <h5
@@ -51,9 +45,9 @@ export default async function ShopPage() {
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                fill-rule="evenodd"
+                fillRule="evenodd"
                 d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                clip-rule="evenodd"
+                clipRule="evenodd"
               ></path>
             </svg>
             Info
@@ -72,9 +66,9 @@ export default async function ShopPage() {
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                fill-rule="evenodd"
+                fillRule="evenodd"
                 d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                clip-rule="evenodd"
+                clipRule="evenodd"
               ></path>
             </svg>
             <span className="sr-only">Close menu</span>
@@ -93,7 +87,7 @@ export default async function ShopPage() {
                     className="text-primary focus:ring-0 rounded-sm cursor-pointer"
                   />
                   <label
-                    for="cat-1"
+                    htmlFor="cat-1"
                     className="text-gray-600 ml-3 cusror-pointer"
                   >
                     Bedroom
@@ -108,7 +102,7 @@ export default async function ShopPage() {
                     className="text-primary focus:ring-0 rounded-sm cursor-pointer"
                   />
                   <label
-                    for="cat-2"
+                    htmlFor="cat-2"
                     className="text-gray-600 ml-3 cusror-pointer"
                   >
                     Sofa
@@ -123,7 +117,7 @@ export default async function ShopPage() {
                     className="text-primary focus:ring-0 rounded-sm cursor-pointer"
                   />
                   <label
-                    for="cat-3"
+                    htmlFor="cat-3"
                     className="text-gray-600 ml-3 cusror-pointer"
                   >
                     Office
@@ -138,7 +132,7 @@ export default async function ShopPage() {
                     className="text-primary focus:ring-0 rounded-sm cursor-pointer"
                   />
                   <label
-                    for="cat-4"
+                    htmlFor="cat-4"
                     className="text-gray-600 ml-3 cusror-pointer"
                   >
                     Outdoor
@@ -184,7 +178,7 @@ export default async function ShopPage() {
                     className="hidden"
                   />
                   <label
-                    for="size-xs"
+                    htmlFor="size-xs"
                     className="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600"
                   >
                     XS
@@ -198,7 +192,7 @@ export default async function ShopPage() {
                     className="hidden"
                   />
                   <label
-                    for="size-sm"
+                    htmlFor="size-sm"
                     className="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600"
                   >
                     S
@@ -212,7 +206,7 @@ export default async function ShopPage() {
                     className="hidden"
                   />
                   <label
-                    for="size-m"
+                    htmlFor="size-m"
                     className="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600"
                   >
                     M
@@ -226,7 +220,7 @@ export default async function ShopPage() {
                     className="hidden"
                   />
                   <label
-                    for="size-l"
+                    htmlFor="size-l"
                     className="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600"
                   >
                     L
@@ -240,7 +234,7 @@ export default async function ShopPage() {
                     className="hidden"
                   />
                   <label
-                    for="size-xl"
+                    htmlFor="size-xl"
                     className="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600"
                   >
                     XL
@@ -269,155 +263,24 @@ export default async function ShopPage() {
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
-                  clip-rule="evenodd"
+                  clipRule="evenodd"
                 ></path>
               </svg>
             </a>
           </div>
         </div>
 
-        <FilterSideBar/>
-        {/* <!-- products --> */}
+        <FilterSideBar />
+        
         <div className="col-span-3">
           <div className="grid md:grid-cols-3 grid-cols-2 gap-6">
-            <div className="bg-white shadow rounded overflow-hidden group">
-              <div className="relative">
-                <img
-                  src="../assets/images/products/product1.jpg"
-                  alt="product 1"
-                  className="w-full"
-                />
-                <div
-                  className="absolute inset-0 bg-black bg-opacity-40 flex items-center 
-                        justify-center gap-2 opacity-0 group-hover:opacity-100 transition"
-                >
-                  <a
-                    href="#"
-                    className="text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition"
-                    title="view product"
-                  >
-                    <i className="fa-solid fa-magnifying-glass"></i>
-                  </a>
-                  <a
-                    href="#"
-                    className="text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition"
-                    title="add to wishlist"
-                  >
-                    <i className="fa-solid fa-heart"></i>
-                  </a>
-                </div>
-              </div>
-              <div className="pt-4 pb-3 px-4">
-                <a href="#">
-                  <h4 className="uppercase font-medium text-xl mb-2 text-gray-800 hover:text-primary transition">
-                    Guyer Chair
-                  </h4>
-                </a>
-                <div className="flex items-baseline mb-1 space-x-2">
-                  <p className="text-xl text-primary font-semibold">$45.00</p>
-                  <p className="text-sm text-gray-400 line-through">$55.90</p>
-                </div>
-                <div className="flex items-center">
-                  <div className="flex gap-1 text-sm text-yellow-400">
-                    <span>
-                      <i className="fa-solid fa-star"></i>
-                    </span>
-                    <span>
-                      <i className="fa-solid fa-star"></i>
-                    </span>
-                    <span>
-                      <i className="fa-solid fa-star"></i>
-                    </span>
-                    <span>
-                      <i className="fa-solid fa-star"></i>
-                    </span>
-                    <span>
-                      <i className="fa-solid fa-star"></i>
-                    </span>
-                  </div>
-                  <div className="text-xs text-gray-500 ml-3">(150)</div>
-                </div>
-              </div>
-              <a
-                href="#"
-                className="block w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition"
-              >
-                Add to cart
-              </a>
-            </div>
-
-            <div className="bg-white shadow rounded overflow-hidden group">
-              <div className="relative">
-                <img
-                  src="../assets/images/products/product2.jpg"
-                  alt="product 1"
-                  className="w-full"
-                />
-                <div
-                  className="absolute inset-0 bg-black bg-opacity-40 flex items-center 
-                        justify-center gap-2 opacity-0 group-hover:opacity-100 transition"
-                >
-                  <a
-                    href="#"
-                    className="text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition"
-                    title="view product"
-                  >
-                    <i className="fa-solid fa-magnifying-glass"></i>
-                  </a>
-                  <a
-                    href="#"
-                    className="text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition"
-                    title="add to wishlist"
-                  >
-                    <i className="fa-solid fa-heart"></i>
-                  </a>
-                </div>
-              </div>
-              <div className="pt-4 pb-3 px-4">
-                <a href="#">
-                  <h4 className="uppercase font-medium text-xl mb-2 text-gray-800 hover:text-primary transition">
-                    Guyer Chair
-                  </h4>
-                </a>
-                <div className="flex items-baseline mb-1 space-x-2">
-                  <p className="text-xl text-primary font-semibold">$45.00</p>
-                  <p className="text-sm text-gray-400 line-through">$55.90</p>
-                </div>
-                <div className="flex items-center">
-                  <div className="flex gap-1 text-sm text-yellow-400">
-                    <span>
-                      <i className="fa-solid fa-star"></i>
-                    </span>
-                    <span>
-                      <i className="fa-solid fa-star"></i>
-                    </span>
-                    <span>
-                      <i className="fa-solid fa-star"></i>
-                    </span>
-                    <span>
-                      <i className="fa-solid fa-star"></i>
-                    </span>
-                    <span>
-                      <i className="fa-solid fa-star"></i>
-                    </span>
-                  </div>
-                  <div className="text-xs text-gray-500 ml-3">(150)</div>
-                </div>
-              </div>
-              <a
-                href="#"
-                className="block w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition"
-              >
-                Add to cart
-              </a>
-            </div>
-
+            {searchedProducts?.map((product,i) => (
+              <SingleProduct key={i} product={product}/>
+            ))}
           </div>
         </div>
-
-        {/* <!-- ./products --> */}
       </div>
     </>
   );

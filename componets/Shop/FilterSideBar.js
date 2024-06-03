@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 export default function FilterSideBar() {
   return (
@@ -16,7 +16,10 @@ export default function FilterSideBar() {
                 id="cat-1"
                 className="text-primary focus:ring-0 rounded-sm cursor-pointer"
               />
-              <label for="cat-1" className="text-gray-600 ml-3 cusror-pointer">
+              <label
+                htmlFor="cat-1"
+                className="text-gray-600 ml-3 cusror-pointer"
+              >
                 Bedroom
               </label>
               <div className="ml-auto text-gray-600 text-sm">(15)</div>
@@ -28,7 +31,10 @@ export default function FilterSideBar() {
                 id="cat-2"
                 className="text-primary focus:ring-0 rounded-sm cursor-pointer"
               />
-              <label for="cat-2" className="text-gray-600 ml-3 cusror-pointer">
+              <label
+                htmlFor="cat-2"
+                className="text-gray-600 ml-3 cusror-pointer"
+              >
                 Sofa
               </label>
               <div className="ml-auto text-gray-600 text-sm">(9)</div>
@@ -40,7 +46,10 @@ export default function FilterSideBar() {
                 id="cat-3"
                 className="text-primary focus:ring-0 rounded-sm cursor-pointer"
               />
-              <label for="cat-3" className="text-gray-600 ml-3 cusror-pointer">
+              <label
+                htmlFor="cat-3"
+                className="text-gray-600 ml-3 cusror-pointer"
+              >
                 Office
               </label>
               <div className="ml-auto text-gray-600 text-sm">(21)</div>
@@ -52,7 +61,10 @@ export default function FilterSideBar() {
                 id="cat-4"
                 className="text-primary focus:ring-0 rounded-sm cursor-pointer"
               />
-              <label for="cat-4" className="text-gray-600 ml-3 cusror-pointer">
+              <label
+                htmlFor="cat-4"
+                className="text-gray-600 ml-3 cusror-pointer"
+              >
                 Outdoor
               </label>
               <div className="ml-auto text-gray-600 text-sm">(10)</div>
@@ -91,7 +103,7 @@ export default function FilterSideBar() {
             <div className="size-selector">
               <input type="radio" name="size" id="size-xs" className="hidden" />
               <label
-                for="size-xs"
+                htmlFor="size-xs"
                 className="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600"
               >
                 XS
@@ -100,7 +112,7 @@ export default function FilterSideBar() {
             <div className="size-selector">
               <input type="radio" name="size" id="size-sm" className="hidden" />
               <label
-                for="size-sm"
+                htmlFor="size-sm"
                 className="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600"
               >
                 S
@@ -109,7 +121,7 @@ export default function FilterSideBar() {
             <div className="size-selector">
               <input type="radio" name="size" id="size-m" className="hidden" />
               <label
-                for="size-m"
+                htmlFor="size-m"
                 className="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600"
               >
                 M
@@ -118,7 +130,7 @@ export default function FilterSideBar() {
             <div className="size-selector">
               <input type="radio" name="size" id="size-l" className="hidden" />
               <label
-                for="size-l"
+                htmlFor="size-l"
                 className="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600"
               >
                 L
@@ -127,7 +139,7 @@ export default function FilterSideBar() {
             <div className="size-selector">
               <input type="radio" name="size" id="size-xl" className="hidden" />
               <label
-                for="size-xl"
+                htmlFor="size-xl"
                 className="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600"
               >
                 XL

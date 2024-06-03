@@ -46,7 +46,7 @@ export default function Login() {
         <form onSubmit={onSubmit} method="post" autocomplete="off">
           <div className="space-y-2">
             <div>
-              <label for="email" className="text-gray-600 mb-2 block">
+              <label htmlFor="email" className="text-gray-600 mb-2 block">
                 Email address
               </label>
               <input
@@ -58,7 +58,7 @@ export default function Login() {
               />
             </div>
             <div>
-              <label for="password" className="text-gray-600 mb-2 block">
+              <label htmlFor="password" className="text-gray-600 mb-2 block">
                 Password
               </label>
               <input
@@ -79,7 +79,7 @@ export default function Login() {
                 className="text-primary focus:ring-0 rounded-sm cursor-pointer"
               />
               <label
-                for="remember"
+                htmlFor="remember"
                 className="text-gray-600 ml-3 cursor-pointer"
               >
                 Remember me

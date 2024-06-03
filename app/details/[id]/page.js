@@ -14,11 +14,11 @@ export default async function page({ params: { id } }) {
   const product = await getSingleProduct(id);
   const relatedProducts = await getRelatedProduct(product?.category);
 
-  const session = await auth();
-  const loggedInUser = await getUserByEmail(session?.user?.email);
+  // const session = await auth();
+  // const loggedInUser = await getUserByEmail(session?.user?.email);
 
-  console.log("sessionUser", session);
-  console.log("loggedIn user", loggedInUser);
+  // console.log("sessionUser", session);
+  // console.log("loggedIn user", loggedInUser);
 
   // const handleWishList = async (e) => {
   //   "use server";
