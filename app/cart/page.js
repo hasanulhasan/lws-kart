@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
+import OrderItem from "@/componets/Cart/OrderItem";
 import { redirect } from "next/navigation";
-import React from "react";
 
 export default async function CartPage() {
   const session = await auth();
@@ -132,55 +132,18 @@ export default async function CartPage() {
             order summary
           </h4>
           <div className="space-y-2">
-            <div className="flex justify-between">
-              <div>
-                <h5 className="text-gray-800 font-medium">
-                  Italian shape sofa
-                </h5>
-                <p className="text-sm text-gray-600">Size: M</p>
-              </div>
-              <p className="text-gray-600">x3</p>
-              <p className="text-gray-800 font-medium">$320</p>
-            </div>
-            <div className="flex justify-between">
-              <div>
-                <h5 className="text-gray-800 font-medium">
-                  Italian shape sofa
-                </h5>
-                <p className="text-sm text-gray-600">Size: M</p>
-              </div>
-              <p className="text-gray-600">x3</p>
-              <p className="text-gray-800 font-medium">$320</p>
-            </div>
-            <div className="flex justify-between">
-              <div>
-                <h5 className="text-gray-800 font-medium">
-                  Italian shape sofa
-                </h5>
-                <p className="text-sm text-gray-600">Size: M</p>
-              </div>
-              <p className="text-gray-600">x3</p>
-              <p className="text-gray-800 font-medium">$320</p>
-            </div>
-            <div className="flex justify-between">
-              <div>
-                <h5 className="text-gray-800 font-medium">
-                  Italian shape sofa
-                </h5>
-                <p className="text-sm text-gray-600">Size: M</p>
-              </div>
-              <p className="text-gray-600">x3</p>
-              <p className="text-gray-800 font-medium">$320</p>
-            </div>
+            <OrderItem/>
+            <OrderItem/>
+            <OrderItem/>
           </div>
 
           <div className="flex justify-between border-b border-gray-200 mt-1 text-gray-800 font-medium py-3 uppercas">
-            <p>subtotal</p>
+            <p>Subtotal</p>
             <p>$1280</p>
           </div>
 
           <div className="flex justify-between border-b border-gray-200 mt-1 text-gray-800 font-medium py-3 uppercas">
-            <p>shipping</p>
+            <p>Shipping</p>
             <p>Free</p>
           </div>
 
@@ -207,12 +170,11 @@ export default async function CartPage() {
             </label>
           </div>
 
-          <a
-            href="#"
+          <button
             className="block w-full py-3 px-4 text-center text-white bg-primary border border-primary rounded-md hover:bg-transparent hover:text-primary transition font-medium"
           >
             Place order
-          </a>
+          </button>
         </div>
       </div>
       {/* <!-- ./wrapper --> */}

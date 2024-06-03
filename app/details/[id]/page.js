@@ -15,7 +15,6 @@ import { redirect } from "next/navigation";
 export default async function page({ params: { id } }) {
   const product = await getSingleProduct(id);
   const relatedProducts = await getRelatedProduct(product?.category);
-
   const session = await auth();
   const loggedInUser = await getUserByEmail(session?.user?.email);
   
@@ -149,10 +148,10 @@ export default async function page({ params: { id } }) {
               <span className="text-gray-800 font-semibold">Category: </span>
               <span className="text-gray-600">{product?.category}</span>
             </p>
-            <p className="space-x-2">
+            {/* <p className="space-x-2">
               <span className="text-gray-800 font-semibold">SKU: </span>
               <span className="text-gray-600">BE45VGRT</span>
-            </p>
+            </p> */}
           </div>
           <div className="flex items-baseline mb-1 space-x-2 font-roboto mt-4">
             <p className="text-xl text-primary font-semibold">
