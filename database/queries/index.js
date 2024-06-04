@@ -46,7 +46,7 @@ export const getTrending = async () => {
   const products = await productModel
     .find()
     .sort({ rating: -1 })
-    .limit(8)
+    .limit(15)
     .lean();
   return replaceMongoIdInArray(products);
 };

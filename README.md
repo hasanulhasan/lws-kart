@@ -16,4 +16,4 @@ Next JS, Tailwind CSS, Mongoose, MongoDB, React Hook Form</br>
 
 ### `Live link`
 
-https://lws-kart-7q7sot1ph-hasanulhasans-projects.vercel.app/
+https://lws-kart-zeta.vercel.app/

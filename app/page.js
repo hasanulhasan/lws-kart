@@ -13,9 +13,9 @@ export default async function Home() {
 
   return (
     <>
-      {/* <Banner /> */}
-      {/* <Features /> */}
-      {/* <Categories /> */}
+      <Banner />
+      <Features />
+      <Categories />
       <NewArrival products={products}/>
       <Ad />
       <TrendingProducts trendingProducts={trendingProducts} />

@@ -44,6 +44,9 @@ export default function CartPage() {
         const resStatus = await careateOrder(orderInfo);
         if (resStatus === 201) {
           toast.success("Order Place Successfull");
+          setTimeout(() => {
+            router.replace('/')
+          }, 2000);
         }
       } catch (error) {
         console.error(error);

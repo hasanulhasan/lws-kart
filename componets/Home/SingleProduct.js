@@ -7,7 +7,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 export default async function SingleProduct({ product }) {
-  const { id, img, title, price, discountPrice } = product;
+  const { id, thumbnail, title, price, discountPrice, stock } = product;
   
   const session = await auth();
   const loggedInUser = await getUserByEmail(session?.user?.email);
@@ -45,17 +45,19 @@ export default async function SingleProduct({ product }) {
 
   return (
     <div className="bg-white shadow rounded overflow-hidden group">
+      <Link href={`/details/${id}`}>
       <div className="relative">
         <img
-          src="/assets/images/products/product1.jpg"
+          // src="/assets/images/products/product1.jpg"
+          src={thumbnail}
           alt="product 1"
-          className="w-full"
+          className="w-full h-32 cursor-pointer"
         />
         <div
           className="absolute inset-0 bg-black bg-opacity-40 flex items-center 
                     justify-center gap-2 opacity-0 group-hover:opacity-100 transition"
         >
-          <a
+          {/* <a
             href="#"
             className="text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition"
             title="view product"
@@ -68,9 +70,10 @@ export default async function SingleProduct({ product }) {
             title="add to wishlist"
           >
             <i className="fa-solid fa-heart"></i>
-          </a>
+          </a> */}
         </div>
       </div>
+      </Link>
 
       <div className="pt-4 pb-3 px-4">
         <Link href={`/details/${id}`}>
@@ -104,7 +107,7 @@ export default async function SingleProduct({ product }) {
         </div>
       </div>
 
-      <CartBtn2 handleAddToCart={handleAddToCart} />
+      <CartBtn2 handleAddToCart={handleAddToCart} stock={stock}/>
     </div>
   );
 }

@@ -21,7 +21,7 @@ export default async function page({ params: { id } }) {
   
   const handleWishList = async () => {
     "use server"
-
+    
     if (!session?.user) {
       redirect("/login")
     }
@@ -101,11 +101,12 @@ export default async function page({ params: { id } }) {
       <div className="container grid grid-cols-2 gap-6">
         <div>
           <img
-            src="../assets/images/products/product1.jpg"
+            src={product?.thumbnail}
+            // src="../assets/images/products/product1.jpg"
             alt="product"
             className="w-full"
           />
-          <div className="grid grid-cols-5 gap-4 mt-4">
+          {/* <div className="grid grid-cols-5 gap-4 mt-4">
             <img
               src="../assets/images/products/product2.jpg"
               alt="product2"
@@ -131,7 +132,7 @@ export default async function page({ params: { id } }) {
               alt="product2"
               className="w-full cursor-pointer border"
             />
-          </div>
+          </div> */}
         </div>
 
         <div>
@@ -216,11 +217,11 @@ export default async function page({ params: { id } }) {
             <ShareSocial />
           </div>
           <div className="mt-2 flex items-center gap-3 border-b border-gray-200 pb-5 pt-5">
-            <CartBtn handleAddToCart={handleAddToCart} />
+            <CartBtn handleAddToCart={handleAddToCart} stock={product?.stock}/>
             <WishBtn handleWishList={handleWishList} />
           </div>
 
-          <div className="flex gap-3 mt-4">
+          {/* <div className="flex gap-3 mt-4">
             <a
               href="#"
               className="text-gray-400 hover:text-gray-500 h-8 w-8 rounded-full border border-gray-300 flex items-center justify-center"
@@ -239,7 +240,7 @@ export default async function page({ params: { id } }) {
             >
               <i className="fa-brands fa-instagram"></i>
             </a>
-          </div>
+          </div> */}
         </div>
       </div>
 
@@ -252,9 +253,7 @@ export default async function page({ params: { id } }) {
         </h3>
         <div className="w-3/5 pt-6">
           <div className="text-gray-600">
-            <p>{product.description}</p>
-            <p>{product.description}</p>
-            <p>{product.description}</p>
+            <p>Description: {product.description}</p>
           </div>
         </div>
       </div>

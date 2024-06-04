@@ -23,6 +23,7 @@ module.exports = {
       },
       colors: {
         primary: "#fd3d57",
+        gray: "#808080"
       },
       backgroundImage: {
         'main-banner': "url('/assets/images/banner-bg.jpg')",
