@@ -1,13 +1,69 @@
-import { auth } from "@/auth";
+"use client";
+import { careateOrder } from "@/actions";
+import ChekckOutForm from "@/componets/Cart/ChekckOutForm";
 import OrderItem from "@/componets/Cart/OrderItem";
-import { redirect } from "next/navigation";
+import { getCartProduct, getUserCheck } from "@/database/queries";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
-export default async function CartPage() {
-  const session = await auth();
+const shippingPrice = 50;
 
-  if (!session?.user) {
-    redirect("/login");
-  }
+export default function CartPage() {
+  const router = useRouter;
+  const [cart, setCart] = useState([]);
+
+  const [fromInfo, setFormInfo] = useState({
+    name: "",
+    phone: "",
+    address: "",
+  });
+
+  let priceCount = 0;
+  cart?.forEach((cartProduct) => {
+    priceCount = priceCount + cartProduct.discountPrice;
+  });
+
+  const handleOrder = async () => {
+    if (!fromInfo?.name || !fromInfo?.phone || !fromInfo?.address) {
+      toast.success("Please fill the form correctly");
+    } else {
+      const orderInfo = {
+        name: fromInfo.name,
+        phone: fromInfo.phone,
+        address: fromInfo.address,
+        orders: cart,
+        totalCost: Number(priceCount)
+      };
+
+      try {
+        const resStatus = await careateOrder(orderInfo);
+        if (resStatus === 201) {
+          toast.success("Order Place Successfull");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const user = await getUserCheck();
+      if (!user) {
+        router.push("/login");
+      }
+    };
+    fetchUser();
+  }, [router]);
+
+  useEffect(() => {
+    const fetchCartProduct = async () => {
+      const cartProducts = await getCartProduct();
+      setCart(cartProducts);
+    };
+    fetchCartProduct();
+  }, []);
 
   return (
     <>
@@ -27,104 +83,7 @@ export default async function CartPage() {
       <div className="container grid grid-cols-12 items-start pb-16 pt-4 gap-6">
         <div className="col-span-8 border border-gray-200 p-4 rounded">
           <h3 className="text-lg font-medium capitalize mb-4">Checkout</h3>
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label htmlFor="first-name" className="text-gray-600">
-                  First Name <span className="text-primary">*</span>
-                </label>
-                <input
-                  type="text"
-                  name="first-name"
-                  id="first-name"
-                  className="input-box"
-                />
-              </div>
-              <div>
-                <label htmlFor="last-name" className="text-gray-600">
-                  Last Name <span className="text-primary">*</span>
-                </label>
-                <input
-                  type="text"
-                  name="last-name"
-                  id="last-name"
-                  className="input-box"
-                />
-              </div>
-            </div>
-            <div>
-              <label htmlFor="company" className="text-gray-600">
-                Company
-              </label>
-              <input
-                type="text"
-                name="company"
-                id="company"
-                className="input-box"
-              />
-            </div>
-            <div>
-              <label htmlFor="region" className="text-gray-600">
-                Country/Region
-              </label>
-              <input
-                type="text"
-                name="region"
-                id="region"
-                className="input-box"
-              />
-            </div>
-            <div>
-              <label htmlFor="address" className="text-gray-600">
-                Street address
-              </label>
-              <input
-                type="text"
-                name="address"
-                id="address"
-                className="input-box"
-              />
-            </div>
-            <div>
-              <label htmlFor="city" className="text-gray-600">
-                City
-              </label>
-              <input type="text" name="city" id="city" className="input-box" />
-            </div>
-            <div>
-              <label htmlFor="phone" className="text-gray-600">
-                Phone number
-              </label>
-              <input
-                type="text"
-                name="phone"
-                id="phone"
-                className="input-box"
-              />
-            </div>
-            <div>
-              <label htmlFor="email" className="text-gray-600">
-                Email address
-              </label>
-              <input
-                type="email"
-                name="email"
-                id="email"
-                className="input-box"
-              />
-            </div>
-            <div>
-              <label htmlFor="company" className="text-gray-600">
-                Company
-              </label>
-              <input
-                type="text"
-                name="company"
-                id="company"
-                className="input-box"
-              />
-            </div>
-          </div>
+          <ChekckOutForm fromInfo={fromInfo} setFormInfo={setFormInfo} />
         </div>
 
         <div className="col-span-4 border border-gray-200 p-4 rounded">
@@ -132,24 +91,24 @@ export default async function CartPage() {
             order summary
           </h4>
           <div className="space-y-2">
-            <OrderItem/>
-            <OrderItem/>
-            <OrderItem/>
+            {cart?.map((cartProduct, i) => (
+              <OrderItem key={i} cartProduct={cartProduct} />
+            ))}
           </div>
 
           <div className="flex justify-between border-b border-gray-200 mt-1 text-gray-800 font-medium py-3 uppercas">
             <p>Subtotal</p>
-            <p>$1280</p>
+            <p>${priceCount}</p>
           </div>
 
           <div className="flex justify-between border-b border-gray-200 mt-1 text-gray-800 font-medium py-3 uppercas">
             <p>Shipping</p>
-            <p>Free</p>
+            <p>${shippingPrice}</p>
           </div>
 
           <div className="flex justify-between text-gray-800 font-medium py-3 uppercas">
             <p className="font-semibold">Total</p>
-            <p>$1280</p>
+            <p>${priceCount + shippingPrice}</p>
           </div>
 
           <div className="flex items-center mb-4 mt-2">
@@ -171,12 +130,14 @@ export default async function CartPage() {
           </div>
 
           <button
+            onClick={handleOrder}
             className="block w-full py-3 px-4 text-center text-white bg-primary border border-primary rounded-md hover:bg-transparent hover:text-primary transition font-medium"
           >
             Place order
           </button>
         </div>
       </div>
+      <Toaster />
       {/* <!-- ./wrapper --> */}
     </>
   );

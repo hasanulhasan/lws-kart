@@ -10,7 +10,7 @@ export default function TrendingProducts({ trendingProducts }) {
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {trendingProducts?.map((product) => (
-          <SingleProduct key={product._id} product={product} />
+          <SingleProduct key={product.id} product={product} />
         ))}
       </div>
     </div>

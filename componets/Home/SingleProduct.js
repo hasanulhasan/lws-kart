@@ -1,14 +1,53 @@
 /* eslint-disable @next/next/no-img-element */
+import { auth } from "@/auth";
+import { getUserByEmail } from "@/database/queries";
+import CartBtn2 from "@/utils/CartBtn2";
 import Link from "next/link";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
-export default function SingleProduct({ product }) {
-  const { _id, img, title, price, discountPrice } = product;
+export default async function SingleProduct({ product }) {
+  const { id, img, title, price, discountPrice } = product;
+  
+  const session = await auth();
+  const loggedInUser = await getUserByEmail(session?.user?.email);
+
+  const handleAddToCart = async () => {
+    "use server";
+
+    if (!session?.user) {
+      redirect("/login");
+    }
+
+    if (!loggedInUser?.id) {
+      console.log("user not found");
+    }
+
+    try {
+      const res = await fetch(`${process.env.APP_URL}/api/cart`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          productId: id,
+          userId: loggedInUser?.id,
+        }),
+      });
+
+      if (res.status === 201) {
+        revalidatePath("/", "layout");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="bg-white shadow rounded overflow-hidden group">
       <div className="relative">
         <img
-          src="assets/images/products/product1.jpg"
+          src="/assets/images/products/product1.jpg"
           alt="product 1"
           className="w-full"
         />
@@ -34,7 +73,7 @@ export default function SingleProduct({ product }) {
       </div>
 
       <div className="pt-4 pb-3 px-4">
-        <Link href={`/details/${_id}`}>
+        <Link href={`/details/${id}`}>
           <h4 className="uppercase font-medium text-xl mb-2 text-gray-800 hover:text-primary transition">
             {title}
           </h4>
@@ -65,9 +104,7 @@ export default function SingleProduct({ product }) {
         </div>
       </div>
 
-      <button className="block w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition">
-        Add to cart
-      </button>
+      <CartBtn2 handleAddToCart={handleAddToCart} />
     </div>
   );
 }

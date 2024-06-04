@@ -1,4 +1,4 @@
-"use server";
+// "use client";
 /* eslint-disable @next/next/no-img-element */
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
@@ -11,6 +11,7 @@ import {
 } from "@/database/queries";
 import WishBtn from "@/utils/WishBtn";
 import { redirect } from "next/navigation";
+import CartBtn from "@/utils/CartBtn";
 
 export default async function page({ params: { id } }) {
   const product = await getSingleProduct(id);
@@ -49,6 +50,38 @@ export default async function page({ params: { id } }) {
       console.error(error);
     }
   };
+
+  const handleAddToCart = async () => {
+    "use server"
+
+    if (!session?.user) {
+      redirect("/login");
+    }
+
+    if (!loggedInUser?.id) {
+      console.log("user not found");
+    }
+    
+    try {
+      const res = await fetch(`${process.env.APP_URL}/api/cart`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          productId: product?.id,
+          userId: loggedInUser?.id,
+        }),
+      });
+
+      if (res.status === 201) {
+        revalidatePath("/", "layout");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
+  }
  
   
 
@@ -183,12 +216,7 @@ export default async function page({ params: { id } }) {
             <ShareSocial />
           </div>
           <div className="mt-2 flex items-center gap-3 border-b border-gray-200 pb-5 pt-5">
-            <a
-              href="#"
-              className="bg-primary border border-primary text-white px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:bg-transparent hover:text-primary transition"
-            >
-              <i className="fa-solid fa-bag-shopping"></i> Add to cart
-            </a>
+            <CartBtn handleAddToCart={handleAddToCart} />
             <WishBtn handleWishList={handleWishList} />
           </div>
 

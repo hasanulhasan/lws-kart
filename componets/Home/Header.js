@@ -3,12 +3,13 @@ import Link from "next/link";
 import React from "react";
 import Search from "../Search";
 import { auth } from "@/auth";
-import { getUserByEmail, getWishListProduct } from "@/database/queries";
+import { getCartProduct, getUserByEmail, getWishListProduct } from "@/database/queries";
 
 export default async function Header() {
   const session = await auth();
   const loggedInUser = await getUserByEmail(session?.user?.email);
   const wishList = await getWishListProduct(loggedInUser?.id);
+  const cart = await getCartProduct(loggedInUser?.id);
 
   return (
     <header className="py-4 shadow-sm bg-white">
@@ -27,7 +28,6 @@ export default async function Header() {
               <i className="fa-regular fa-heart"></i>
             </div>
             <div className="text-xs leading-3">Wishlist</div>
-
             {wishList?.length !== 0 && (
               <div className="absolute right-0 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-primary text-white text-xs">
                 {wishList?.length}
@@ -43,11 +43,11 @@ export default async function Header() {
             </div>
             <div className="text-xs leading-3">Cart</div>
 
-              {/* it will work after cart system implementation */}
-            {/* <div className="absolute -right-3 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-primary text-white text-xs">
-              2
-            </div> */}
-
+            {cart?.length !== 0 && (
+              <div className="absolute right-0 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-primary text-white text-xs">
+                {cart?.length}
+              </div>
+            )}
           </Link>
           <Link
             href="/account"

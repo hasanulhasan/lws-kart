@@ -1,6 +1,7 @@
-import { NextResponse } from "next/server";
+import { cartModel } from "@/models/cart-model";
 import { dbConnect } from "@/service/mongo";
-import { wishListModel } from "@/models/wishlist-model";
+import { NextResponse } from "next/server";
+
 
 export const POST = async (request) => {
   await dbConnect();
@@ -12,8 +13,8 @@ export const POST = async (request) => {
   };
 
   try {
-    await wishListModel.create(payload);
-    return new NextResponse("Added to wishList", {
+    await cartModel.create(payload);
+    return new NextResponse("Added to cart", {
       status: 201,
     });
   } catch (err) {

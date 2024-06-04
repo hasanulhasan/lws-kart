@@ -1,3 +1,6 @@
+"use server";
+import { auth } from "@/auth";
+import { cartModel } from "@/models/cart-model";
 import { productModel } from "@/models/product-model";
 import { userModel } from "@/models/user-model";
 import { wishListModel } from "@/models/wishlist-model";
@@ -13,7 +16,8 @@ export const getSerchedProduct = async (searchTerm) => {
   filteredProducts = filteredProducts?.filter((product) =>
     product?.title?.toLowerCase().includes(searchTerm?.toLowerCase())
   );
-  return filteredProducts;
+
+  return replaceMongoIdInArray(filteredProducts);
 };
 
 export const getWishListProduct = async (userId) => {
@@ -30,12 +34,12 @@ export const getWishListProduct = async (userId) => {
     })
   );
 
-  return userWishedProduct;
+  return replaceMongoIdInArray(userWishedProduct);
 };
 
 export const getAllProducts = async () => {
   const products = await productModel.find().limit(4).lean();
-  return products;
+  return replaceMongoIdInArray(products);
 };
 
 export const getTrending = async () => {
@@ -44,7 +48,7 @@ export const getTrending = async () => {
     .sort({ rating: -1 })
     .limit(8)
     .lean();
-  return products;
+  return replaceMongoIdInArray(products);
 };
 
 export const getSingleProduct = async (id) => {
@@ -52,12 +56,40 @@ export const getSingleProduct = async (id) => {
   return replaceMongoIdInObject(product);
 };
 
-export async function getUserByEmail(email) {
+export const getUserByEmail = async(email) => {
   const user = await userModel.find({ email: email }).lean();
   return replaceMongoIdInObject(user[0]);
 }
 
 export const getRelatedProduct = async (category) => {
-  const product = await productModel.find({ category: category }).lean();
-  return product;
+  const products = await productModel.find({ category: category }).lean();
+  return replaceMongoIdInArray(products);
+};
+
+//client action
+
+export async function getUserCheck() {
+  const session = await auth();
+  const loggedInUser = await getUserByEmail(session?.user?.email);
+  const user = await userModel.find({ email: loggedInUser.email }).lean();
+  return replaceMongoIdInObject(user[0]);
+}
+
+export const getCartProduct = async () => {
+  const session = await auth();
+  const loggedInUser = await getUserByEmail(session?.user?.email);
+  const products = await cartModel.find({ userId: loggedInUser?.id }).lean();
+
+  let cartProduct = [];
+
+  cartProduct = await Promise.all(
+    products?.map(async (poroduct) => {
+      const userCartProduct = await productModel
+        .findById(poroduct?.productId)
+        .lean();
+      return userCartProduct;
+    })
+  );
+
+  return replaceMongoIdInArray(cartProduct);
 };

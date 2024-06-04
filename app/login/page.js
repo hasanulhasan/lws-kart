@@ -12,7 +12,7 @@ export default function Login() {
   const router = useRouter();
 
   const handleAuth = (e) => {
-    signIn("google", { callbackUrl: "http://localhost:3000" });
+    signIn("google", { callbackUrl: process.env.APP_URL });
   };
 
   const onSubmit = async (e) => {
@@ -20,7 +20,7 @@ export default function Login() {
     try {
       const formData = new FormData(e.currentTarget);
       const res = await login(formData);
-      console.log(res);
+      // console.log(res);
       if (res.err) {
         setError(res?.error?.message);
       } else {
@@ -36,8 +36,8 @@ export default function Login() {
   return (
     <div className="contain py-16">
       <div className="max-w-lg mx-auto shadow px-6 py-7 rounded overflow-hidden">
-        <h2 className="text-2xl uppercase font-medium mb-1">Login</h2>
-        <p className="text-gray-600 mb-6 text-sm">welcome back customer</p>
+        <h2 className="text-2xl uppercase font-medium mb-3 text-center">Login</h2>
+        {/* <p className="text-gray-600 mb-6 text-sm">welcome back customer</p> */}
         {error && (
           <p className="text-primary my-2 text-center">
             There is an error, {error}

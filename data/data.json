@@ -1,6 +1,5 @@
 [
   {
-    "id": 1,
     "title": "Bed king Size",
     "description": "An apple mobile which is nothing like apple",
     "price": 549,
@@ -19,7 +18,6 @@
     ]
   },
   {
-    "id": 2,
     "title": "Bed kid Size",
     "description": "SIM-Free, Model A19211 6.5-inch Super Retina HD display with OLED technology A12 Bionic chip with ...",
     "price": 899,
@@ -37,7 +35,6 @@
     ]
   },
   {
-    "id": 3,
     "title": "Bed Small Size",
     "description": "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
     "price": 1249,
@@ -50,7 +47,6 @@
     "images": ["https://cdn.dummyjson.com/product-images/3/1.jpg"]
   },
   {
-    "id": 4,
     "title": "Wooden Bedroom",
     "description": "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomize words which don't look even slightly believable.",
     "price": 280,
@@ -69,7 +65,6 @@
     ]
   },
   {
-    "id": 5,
     "title": "King Divan",
     "description": "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomize words which don't look even slightly believable.",
     "price": 499,
@@ -86,7 +81,6 @@
     ]
   },
   {
-    "id": 6,
     "title": "Showcase",
     "description": "The actual color of the physical product may slightly vary due to the deviation of lighting sources, photography or your device display settings.",
     "price": 1749,
@@ -104,7 +98,6 @@
     ]
   },
   {
-    "id": 7,
     "title": "Relax Floor Mattress",
     "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ",
     "price": 1499,
@@ -122,7 +115,6 @@
     ]
   },
   {
-    "id": 8,
     "title": "Ruby Red Crystal",
     "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ",
     "price": 1499,
@@ -141,7 +133,6 @@
     ]
   },
   {
-    "id": 9,
     "title": "Classic Quality Bed",
     "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ",
     "price": 1099,
@@ -160,7 +151,6 @@
     ]
   },
   {
-    "id": 10,
     "title": "Premium Intex Double",
     "description": "Folds compactly for storage or travel. Valve has extra-wide openings for fast inflating and deflating.",
     "price": 1099,
@@ -178,7 +168,6 @@
     ]
   },
   {
-    "id": 11,
     "title": "Veteran 337",
     "description": "Most of our furniture is made of natural components, which will have natural differences in grain construction and occasional minor blemish. Any assembly or installation required will be done by the HATIL team at the time of delivery (one day after delivery for CKD items)",
     "price": 1365,
@@ -196,7 +185,6 @@
     ]
   },
   {
-    "id": 12,
     "title": "Latica 338",
     "description": "Made from Kiln-dried imported Beech wood and veneered engineered wood.High quality environment friendly Italian Ultra Violet (UV) and Polyurethane (PU) Lacquer in antique finish",
     "price": 4000,
@@ -215,7 +203,6 @@
     ]
   },
   {
-    "id": 13,
     "title": "Aquarius 325",
     "description": "Made from Kiln-dried Beech veneered engineered wood. High quality environment friendly Polyurethane (PU) Lacquer in antique finish. Please refer to images for dimension details",
     "price": 1030,
@@ -234,7 +221,6 @@
     ]
   },
   {
-    "id": 14,
     "title": "Nottingham - 245",
     "description": "Made from Kiln-dried Beech veneered engineered wood. High quality environment friendly Polyurethane (PU) Lacquer in antique finish. Please refer to images for dimension details",
     "price": 1620,
@@ -252,7 +238,6 @@
     ]
   },
   {
-    "id": 15,
     "title": "Monza Waterproof Dark Swing",
     "description": "Characterized by straight lines and curve shells, our Monza outdoor collection revisits the eclectic and modern Art Deco style. The Art Deco movement in Italy, in the early 1920s had a widespread influence on Italian design by replacing ornamentation in furniture with functionality and replacing it with clean lines and pure shapes. The modern, sleek silhouette of the Monza Waterproof Bleached Sand Dark Swing weaves in an element of traditional elegance, lending sophistication to your outdoor area. ",
     "price": 3000,
@@ -271,7 +256,6 @@
     ]
   },
   {
-    "id": 16,
     "title": "Palermo Folding Chair",
     "description": "Inspired by the idyllic pace of island life, the crystal blue Mediterranean Sea and scenic beaches along the coast, our Palermo Collection will transport you to a place where style and lifestyle are intertwined with imagining the natural beauty of the Island of Sicily.",
     "price": 1900,
@@ -290,7 +274,6 @@
     ]
   },
   {
-    "id": 17,
     "title": "Smart-Slide SCT 424 Drawer's Cutlery Tray",
     "description": "Tea tree oil contains a number of compounds, including terpinen-4-ol, that have been shown to kill certain bacteria,",
     "price": 900,
@@ -308,7 +291,6 @@
     ]
   },
   {
-    "id": 18,
     "title": "Rizco RKS SS 22-Inch Kitchen Sink",
     "description": "Dermive Oil Free Moisturizer with SPF 20 is specifically formulated with ceramides, hyaluronic acid & sunscreen.",
     "price": 840,
@@ -327,7 +309,6 @@
     ]
   },
   {
-    "id": 19,
     "title": "Adhesive Kitchen Wall Sticker",
     "description": "This kitchen wall sticker is oil-proof, waterproof, and does not melt in hot heat. It can be used in your kitchen, living room floor, dining table, bathroom, garage, or furniture. It has a strong adhesive that once stuck to a clean flat surface can be used for a long time.",
     "price": 460,
