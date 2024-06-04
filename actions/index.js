@@ -47,3 +47,19 @@ export async function addToCart(cartInfo) {
   }
 }
 
+export async function editShippingProfile(profileInfo) {
+  try {
+    const res = await fetch(`${process.env.APP_URL}/api/profile`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(profileInfo),
+    });
+    console.log(res)
+    return res?.status;
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+

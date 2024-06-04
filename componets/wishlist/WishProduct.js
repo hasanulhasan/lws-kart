@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import { revalidatePath } from "next/cache";
 import { getUserCheck } from "@/database/queries";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -34,7 +33,7 @@ export default function WishProduct({ wishProduct }) {
 
         if (resStatus === 201) {
           toast.success("Add to cart Success");
-          revalidatePath("/", "layout");
+          router.refresh();
         }
       } catch (error) {
         console.log(error);
@@ -85,7 +84,7 @@ export default function WishProduct({ wishProduct }) {
         onClick={handleAddToCart}
         className="px-6 py-2 text-center text-sm text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium"
       >
-        add to cart
+        Add to cart
       </button>
 
       <div className="text-gray-600 cursor-pointer hover:text-primary">

@@ -10,9 +10,8 @@ import toast, { Toaster } from "react-hot-toast";
 const shippingPrice = 50;
 
 export default function CartPage() {
-  const router = useRouter;
+  const router = useRouter();
   const [cart, setCart] = useState([]);
-
   const [fromInfo, setFormInfo] = useState({
     name: "",
     phone: "",
@@ -25,15 +24,20 @@ export default function CartPage() {
   });
 
   const handleOrder = async () => {
+    if(cart?.length === 0){
+      toast.error("There should be at least an order");
+      return null
+    }
+
     if (!fromInfo?.name || !fromInfo?.phone || !fromInfo?.address) {
-      toast.success("Please fill the form correctly");
+      toast.error("Please fill the form correctly");
     } else {
       const orderInfo = {
         name: fromInfo.name,
         phone: fromInfo.phone,
         address: fromInfo.address,
         orders: cart,
-        totalCost: Number(priceCount)
+        totalCost: Number(priceCount),
       };
 
       try {
@@ -45,13 +49,14 @@ export default function CartPage() {
         console.error(error);
       }
     }
+
   };
 
   useEffect(() => {
     const fetchUser = async () => {
       const user = await getUserCheck();
-      if (!user) {
-        router.push("/login");
+      if (!user?.email) {
+        router.replace('/login')
       }
     };
     fetchUser();
@@ -91,6 +96,9 @@ export default function CartPage() {
             order summary
           </h4>
           <div className="space-y-2">
+            {cart?.length === 0 && (
+              <p className="text-center">There is no order</p>
+            )}
             {cart?.map((cartProduct, i) => (
               <OrderItem key={i} cartProduct={cartProduct} />
             ))}

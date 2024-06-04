@@ -1,12 +1,78 @@
-import { auth } from "@/auth";
-import { redirect } from "next/navigation";
+"use client";
+import { editShippingProfile } from "@/actions";
+import { getUserCheck } from "@/database/queries";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
-export default async function Account() {
-  const session = await auth();
+export default function Account() {
+  const router = useRouter();
+  const [user, setUser] = useState({});
 
-  if (!session?.user) {
-    redirect("/login");
-  }
+  const [shippingAddressEditMode, setShippingAddressEditMode] = useState(false);
+  const [billingAddressEditMode, setBillingAddressEditMode] = useState(false);
+  const [shippingAddress, setShippingAddress] = useState({
+    name: "",
+    address: "",
+    phone: "",
+  });
+  const [billingAddress, setBillingAddress] = useState({
+    name: "",
+    address: "",
+    phone: "",
+  });
+
+  const handleShippiAddress = async () => {
+    const profileInfo = {
+      userId: user?.id,
+      data: {
+        shippingName: shippingAddress.name,
+        shippingPhone: shippingAddress.phone,
+        shippingAddress: shippingAddress.address,
+      },
+    };
+
+    try {
+      const resStatus = await editShippingProfile(profileInfo);
+
+      if (resStatus === 201) {
+        toast.success("Edit Success");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const handleBillingAddress = async () => {
+    const profileInfo = {
+      userId: user?.id,
+      data: {
+        billingName: shippingAddress.name,
+        billingPhone: shippingAddress.phone,
+        billingAddress: shippingAddress.address,
+      },
+    };
+
+    try {
+      const resStatus = await editShippingProfile(profileInfo);
+
+      if (resStatus === 201) {
+        toast.success("Edit Success");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const user = await getUserCheck();
+      setUser(user);
+      if (!user?.email) {
+        router.replace("/login");
+      }
+    };
+    fetchUser();
+  }, [router]);
 
   return (
     <>
@@ -36,9 +102,9 @@ export default async function Account() {
               </a>
             </div>
             <div className="space-y-1">
-              <h4 className="text-gray-700 font-medium">John Doe</h4>
-              <p className="text-gray-800">example@mail.com</p>
-              <p className="text-gray-800">0811 8877 988</p>
+              <h4 className="text-gray-700 font-medium">{user?.name}</h4>
+              <p className="text-gray-800">{user?.email}</p>
+              {/* <p className="text-gray-800">0811 8877 988</p> */}
             </div>
           </div>
 
@@ -47,16 +113,65 @@ export default async function Account() {
               <h3 className="font-medium text-gray-800 text-lg">
                 Shipping address
               </h3>
-              <a href="#" className="text-primary">
-                Edit
-              </a>
+              <button
+                onClick={() => {
+                  if (shippingAddressEditMode) {
+                    handleShippiAddress();
+                  }
+                  setShippingAddressEditMode(!shippingAddressEditMode);
+                }}
+                className="text-primary"
+              >
+                {shippingAddressEditMode ? "Save" : "Edit"}
+              </button>
             </div>
-            <div className="space-y-1">
-              <h4 className="text-gray-700 font-medium">John Doe</h4>
-              <p className="text-gray-800">Medan, North Sumatera</p>
-              <p className="text-gray-800">20371</p>
-              <p className="text-gray-800">0811 8877 988</p>
-            </div>
+            {shippingAddressEditMode ? (
+              <>
+                <input
+                  onChange={(e) =>
+                    setShippingAddress({
+                      ...shippingAddress,
+                      name: e.target.value,
+                    })
+                  }
+                  type="text"
+                  placeholder="Name"
+                  className="rounded-md mb-2 border-gray-200 w-full"
+                />
+                <input
+                  onChange={(e) =>
+                    setShippingAddress({
+                      ...shippingAddress,
+                      address: e.target.value,
+                    })
+                  }
+                  type="text"
+                  placeholder="Address"
+                  className="rounded-md mb-2 border-gray-200 w-full"
+                />
+                <input
+                  onChange={(e) =>
+                    setShippingAddress({
+                      ...shippingAddress,
+                      phone: e.target.value,
+                    })
+                  }
+                  type="text"
+                  placeholder="Phone"
+                  className="rounded-md mb-2 border-gray-200 w-full"
+                />
+              </>
+            ) : (
+              <>
+                <div className="space-y-1">
+                  <h4 className="text-gray-700 font-medium">
+                    {shippingAddress.name}
+                  </h4>
+                  <p className="text-gray-800">{shippingAddress.address}</p>
+                  <p className="text-gray-800">{shippingAddress.phone}</p>
+                </div>
+              </>
+            )}
           </div>
 
           <div className="shadow rounded bg-white px-4 pt-6 pb-8">
@@ -64,21 +179,70 @@ export default async function Account() {
               <h3 className="font-medium text-gray-800 text-lg">
                 Billing address
               </h3>
-              <a href="#" className="text-primary">
-                Edit
-              </a>
+              <button
+                onClick={() => {
+                  if (billingAddressEditMode) {
+                    handleBillingAddress();
+                  }
+                  setBillingAddressEditMode(!billingAddressEditMode);
+                }}
+                className="text-primary"
+              >
+                {billingAddressEditMode ? "Save" : "Edit"}
+              </button>
             </div>
-            <div className="space-y-1">
-              <h4 className="text-gray-700 font-medium">John Doe</h4>
-              <p className="text-gray-800">Medan, North Sumatera</p>
-              <p className="text-gray-800">20317</p>
-              <p className="text-gray-800">0811 8877 988</p>
-            </div>
+            {billingAddressEditMode ? (
+              <>
+                <input
+                  onChange={(e) =>
+                    setBillingAddress({
+                      ...billingAddress,
+                      name: e.target.value,
+                    })
+                  }
+                  type="text"
+                  placeholder="Name"
+                  className="rounded-md mb-2 border-gray-200 w-full"
+                />
+                <input
+                  onChange={(e) =>
+                    setBillingAddress({
+                      ...billingAddress,
+                      address: e.target.value,
+                    })
+                  }
+                  type="text"
+                  placeholder="Address"
+                  className="rounded-md mb-2 border-gray-200 w-full"
+                />
+                <input
+                  onChange={(e) =>
+                    setBillingAddress({
+                      ...billingAddress,
+                      phone: e.target.value,
+                    })
+                  }
+                  type="text"
+                  placeholder="Phone"
+                  className="rounded-md mb-2 border-gray-200 w-full"
+                />
+              </>
+            ) : (
+              <>
+                <div className="space-y-1">
+                  <h4 className="text-gray-700 font-medium">John Doe</h4>
+                  <p className="text-gray-800">Medan, North Sumatera</p>
+                  <p className="text-gray-800">20371</p>
+                  <p className="text-gray-800">0811 8877 988</p>
+                </div>
+              </>
+            )}
           </div>
         </div>
         {/* <!-- ./info --> */}
       </div>
       {/* <!-- ./account wrapper --> */}
+      <Toaster />
     </>
   );
 }
